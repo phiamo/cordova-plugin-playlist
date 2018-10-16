@@ -65,13 +65,13 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
     @Override
     public int getNotificationIconRes() {
         // return R.mipmap.icon; // this comes from cordova itself.
-        return fakeR.getId("mipmap", "icon");
+        return fakeR.getId("mipmap", "icon_bw");
     }
 
     @Override
     public int getRemoteViewIconRes() {
         // return R.mipmap.icon;
-        return fakeR.getId("mipmap", "icon");
+        return fakeR.getId("mipmap", "icon_bw");
     }
 
     @Nullable
