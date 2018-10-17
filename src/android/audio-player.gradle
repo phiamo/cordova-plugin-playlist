@@ -5,14 +5,14 @@ repositories {
 
 dependencies {
   // ExoPlayer
-  implementation "com.google.android.exoplayer:exoplayer-core:2.6.1"
-  implementation "com.google.android.exoplayer:exoplayer-dash:2.6.1"
-  implementation "com.google.android.exoplayer:exoplayer-hls:2.6.1"
-  implementation "com.google.android.exoplayer:exoplayer-smoothstreaming:2.6.1"
-  implementation "com.google.android.exoplayer:extension-okhttp:2.6.1"
+  implementation "com.google.android.exoplayer:exoplayer-core:2.8.1"
+  implementation "com.google.android.exoplayer:exoplayer-dash:2.8.1"
+  implementation "com.google.android.exoplayer:exoplayer-hls:2.8.1"
+  implementation "com.google.android.exoplayer:exoplayer-smoothstreaming:2.8.1"
+  implementation "com.google.android.exoplayer:extension-okhttp:2.8.1"
 
   // ExoMedia
-  implementation "com.devbrackets.android:exomedia:4.1.0"
+  implementation "com.devbrackets.android:exomedia:4.2.3"
   implementation "com.devbrackets.android:playlistcore:2.0.1"
 
   // Image Loading
