@@ -34,7 +34,7 @@ const itemStatusChangeTypes = [
   RmxAudioStatusMessage.RMXSTATUS_PLAYBACK_POSITION, RmxAudioStatusMessage.RMXSTATUS_DURATION,
   RmxAudioStatusMessage.RMXSTATUS_BUFFERING, RmxAudioStatusMessage.RMXSTATUS_CANPLAY,
   RmxAudioStatusMessage.RMXSTATUS_LOADING, RmxAudioStatusMessage.RMXSTATUS_LOADED,
-  RmxAudioStatusMessage.RMXSTATUS_PLAYING, RmxAudioStatusMessage.RMXSTATUS_PAUSE, RmxAudioStatusMessage.RMXSTATUS_STOPPED,
+  RmxAudioStatusMessage.RMXSTATUS_PAUSE,
   RmxAudioStatusMessage.RMXSTATUS_COMPLETED,
   RmxAudioStatusMessage.RMXSTATUS_ERROR,
 ];
