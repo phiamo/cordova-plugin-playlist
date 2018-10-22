@@ -74,6 +74,7 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
       JSONObject optionsArgs = args.optJSONObject(1);
       PlaylistItemOptions options = new PlaylistItemOptions(optionsArgs);
 
+      Log.v(TAG, "SET_PLAYLIST_ITEMS:" + items.get(0).toString());
       cordova.getThreadPool().execute(new Runnable() {
           @Override
           public void run() {
@@ -192,8 +193,10 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
 
     if (PLAY_BY_INDEX.equals(action)) {
       int index = args.optInt(0, audioPlayerImpl.getPlaylistManager().getCurrentPosition());
+      long seekPosition = args.optLong(0, 0);
+
       audioPlayerImpl.getPlaylistManager().setCurrentPosition(index);
-      audioPlayerImpl.getPlaylistManager().beginPlayback(0, false);
+      audioPlayerImpl.getPlaylistManager().beginPlayback(seekPosition, false);
       new PluginCallback(callbackContext).send(PluginResult.Status.OK);
       return true;
     }
