@@ -51,7 +51,7 @@ export class RmxAudioPlayer {
 
   private _inititialized: boolean = false;
   private _initPromise: Promise<boolean>;
-  private _readyResolve: any;;
+  private _readyResolve: any;
   private _readyReject: any;
 
   private _currentState: 'unknown' | 'ready' | 'error' | 'playing' | 'loading' | 'paused' | 'stopped' = 'unknown';
