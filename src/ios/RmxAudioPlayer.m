@@ -101,6 +101,7 @@ static char kPlayerItemTimeRangesContext;
     BOOL retainPosition = options[@"retainPosition"] != nil ? [options[@"retainPosition"] boolValue] : NO;
     BOOL retainPosition = options[@"retainPosition"] != nil ? [options[@"retainPosition"] boolValue] : NO;
     float playFromPosition = options[@"retainPosition"] != nil ? [options[@"playFromPosition"] floatValue] : 0.0f;
+    NSString* playFromId = options[@"playFromId"] != nil ? [options[@"playFromId"] NSString*] : nil;
     BOOL startPaused = options[@"startPaused"] != nil ? [options[@"startPaused"] boolValue] : YES;
 
     if (retainPosition) {
