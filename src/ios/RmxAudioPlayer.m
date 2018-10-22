@@ -100,7 +100,8 @@ static char kPlayerItemTimeRangesContext;
     float seekToPosition = 0.0f;
     BOOL retainPosition = options[@"retainPosition"] != nil ? [options[@"retainPosition"] boolValue] : NO;
     float playFromPosition = options[@"playFromPosition"] != nil ? [options[@"playFromPosition"] floatValue] : 0.0f;
-    NSString* playFromId = options[@"playFromId"] != nil ? [options[@"playFromId"] stringValue] : nil;
+    BOOL hasPlayedFromId =  options[@"playFromId"] != nil;
+    NSString* playFromId = hasPlayedFromId ? options[@"playFromId"] : nil;
     BOOL startPaused = options[@"startPaused"] != nil ? [options[@"startPaused"] boolValue] : YES;
 
     if (retainPosition) {
@@ -298,13 +299,33 @@ static char kPlayerItemTimeRangesContext;
 }
 
 
+- (void) selectTrackById:(CDVInvokedUrlCommand *) command {
+    NSString* trackId = [command.arguments objectAtIndex:0];
+    NSLog(@"RmxAudioPlayer.execute=playTrackById, %@", trackId);
+    
+    NSDictionary* result = [self findTrackById:trackId];
+    NSInteger idx = [(NSNumber*)result[@"index"] integerValue];
+    // AudioTrack* track = result[@"track"];
+    
+    if ([self avQueuePlayer].itemsForPlayer.count > 0) {
+        if (idx >= 0) {
+            [self avQueuePlayer].currentIndex = idx;
+        }
+    }
+    
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
 - (void) seekTo:(CDVInvokedUrlCommand *) command {
     NSNumber* argVal = [command argumentAtIndex:0 withDefault:[NSNumber numberWithFloat:0.0]];
     NSLog(@"RmxAudioPlayer.execute=seekTo, %@", argVal);
-
+    
     float positionTime = argVal.floatValue;
     [self seekTo:positionTime isCommand:YES];
-
+    
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
