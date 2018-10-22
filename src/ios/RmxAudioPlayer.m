@@ -237,6 +237,12 @@ static char kPlayerItemTimeRangesContext;
         if (idx >= 0) {
             [self avQueuePlayer].currentIndex = idx;
             [self playCommand:NO];
+
+            NSNumber* argVal = [command argumentAtIndex:0 withDefault:[NSNumber numberWithFloat:0.0]];
+
+            float positionTime = argVal.floatValue;
+            [self seekTo:positionTime isCommand:NO];
+
             CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSUInteger:idx];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         } else {

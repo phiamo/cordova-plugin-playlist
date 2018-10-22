@@ -233,8 +233,8 @@ function () {
       exec(successCallback, errorCallback, 'RmxAudioPlayer', 'play', []);
     });
 
-    _defineProperty(this, "playTrackByIndex", function (successCallback, errorCallback, index) {
-      exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackByIndex', [index]);
+    _defineProperty(this, "playTrackByIndex", function (successCallback, errorCallback, index, position) {
+      exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackByIndex', [index, position]);
     });
 
     _defineProperty(this, "playTrackById", function (successCallback, errorCallback, trackId, position) {

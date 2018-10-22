@@ -252,8 +252,8 @@ export class RmxAudioPlayer {
   /**
    * Play the track at the given index. If the track does not exist, this has no effect.
    */
-  playTrackByIndex = (successCallback: SuccessCallback, errorCallback: ErrorCallback, index: number) => {
-    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackByIndex', [index]);
+  playTrackByIndex = (successCallback: SuccessCallback, errorCallback: ErrorCallback, index: number, position: number) => {
+    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackByIndex', [index, position]);
   }
 
   /**
