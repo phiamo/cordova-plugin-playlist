@@ -1,6 +1,6 @@
 package com.rolamix.plugins.audioplayer.service;
 
-import __PACKAGE_NAME__.MainApplication;
+import org.dwbn.recordings.MainApplication;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -9,6 +9,7 @@ import com.devbrackets.android.playlistcore.components.playlisthandler.PlaylistH
 import com.devbrackets.android.playlistcore.service.BasePlaylistService;
 
 import com.rolamix.plugins.audioplayer.data.AudioTrack;
+import com.rolamix.plugins.audioplayer.manager.Options;
 import com.rolamix.plugins.audioplayer.manager.PlaylistManager;
 import com.rolamix.plugins.audioplayer.playlist.AudioApi;
 import com.rolamix.plugins.audioplayer.playlist.AudioPlaylistHandler;
@@ -50,12 +51,13 @@ public class MediaService extends BasePlaylistService<AudioTrack, PlaylistManage
     @NonNull
     @Override
     public PlaylistHandler<AudioTrack> newPlaylistHandler() {
+        Options options = this.getPlaylistManager().getOptions();
         MediaImageProvider imageProvider = new MediaImageProvider(getApplicationContext(), new MediaImageProvider.OnImageUpdatedListener() {
             @Override
             public void onImageUpdated() {
                 getPlaylistHandler().updateMediaControls();
             }
-        });
+        }, options);
 
         AudioPlaylistHandler.Listener<AudioTrack> listener = new AudioPlaylistHandler.Listener<AudioTrack>() {
             @Override

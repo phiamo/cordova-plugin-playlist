@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -18,18 +19,24 @@ import org.jetbrains.annotations.Nullable;
 // we can use R directly. Otherwise, we'd have to use the cordova activity,
 // but that would be a bit odd since this belongs to a service running
 // outside that activity. I'm not sure if that would work.
-// import __PACKAGE_NAME__.R;
+// import org.dwbn.recordings.R;
 import com.rolamix.plugins.audioplayer.FakeR;
 import com.rolamix.plugins.audioplayer.data.AudioTrack;
+import com.rolamix.plugins.audioplayer.manager.Options;
 
 
 public class MediaImageProvider implements ImageProvider<AudioTrack> {
+
     interface OnImageUpdatedListener {
         void onImageUpdated();
     }
 
     @NotNull
+    private Options options;
+
+    @NotNull
     private RequestManager glide;
+
     @NonNull
     private OnImageUpdatedListener listener;
 
@@ -38,24 +45,27 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
 
     @NonNull
     private NotificationImageTarget notificationImageTarget = new NotificationImageTarget();
+
     @NonNull
     private RemoteViewImageTarget remoteViewImageTarget = new RemoteViewImageTarget();
 
     @NonNull
     private Bitmap defaultNotificationImage;
+
     @NonNull
     private Bitmap defaultArtworkImage;
 
     @Nullable
     private Bitmap notificationImage;
+
     @Nullable
     private Bitmap artworkImage;
 
-    MediaImageProvider(@NonNull Context context, @NonNull OnImageUpdatedListener listener) {
+    MediaImageProvider(@NonNull Context context, @NonNull OnImageUpdatedListener listener, @NonNull Options options) {
         glide = Glide.with(context.getApplicationContext());
         fakeR = new FakeR(context.getApplicationContext());
         this.listener = listener;
-
+        this.options = options;
         // R.drawable.img_playlist_notif_default
         // R.drawable.img_playlist_artwork_default
         defaultNotificationImage = BitmapFactory.decodeResource(context.getResources(), fakeR.getId("drawable", "img_playlist_notif_default"));
@@ -64,6 +74,7 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
 
     @Override
     public int getNotificationIconRes() {
+        Log.i("MIPOPTIONS", options.getIcon());
         // return R.mipmap.icon; // this comes from cordova itself.
         return fakeR.getId("mipmap", "icon_bw");
     }

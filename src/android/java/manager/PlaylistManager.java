@@ -43,6 +43,7 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
 
     // Really need a way to propagate the settings through the app
     private boolean resetStreamOnPause = true;
+    private Options options;
 
     private WeakReference<MediaControlsListener> mediaControlsListener = new WeakReference<>(null);
     private WeakReference<OnErrorListener> errorListener = new WeakReference<>(null);
@@ -51,6 +52,7 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
     public PlaylistManager(Application application) {
         super(application, MediaService.class);
         this.setParameters(AudioTracks, -1);
+        options = new Options(application.getBaseContext());
     }
 
     public void onMediaServiceInit(boolean hasInit) {
@@ -81,8 +83,16 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
       return resetStreamOnPause;
     }
 
+    public Options getOptions() {
+      return options;
+    }
+
     public void setResetStreamOnPause(boolean val) {
       resetStreamOnPause = val;
+    }
+
+    public void setOptions(Options val) {
+      options = val;
     }
 
     public AudioTrack getCurrentErrorTrack() {

@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.content.Context;
 
 import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.LOG;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import __PACKAGE_NAME__.MainApplication;
+import org.dwbn.recordings.MainApplication;
 import com.rolamix.plugins.audioplayer.data.AudioTrack;
+import com.rolamix.plugins.audioplayer.manager.Options;
 import com.rolamix.plugins.audioplayer.manager.PlaylistManager;
 import com.rolamix.plugins.audioplayer.manager.MediaControlsListener;
 
@@ -46,6 +48,7 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
   private boolean trackDuration = false;
   private boolean trackLoaded = false;
   private boolean resetStreamOnPause = true;
+  private Options options;
 
   public RmxAudioPlayer(@NonNull OnStatusReportListener statusListener, @NonNull CordovaInterface cordova) {
     // AudioPlayerPlugin and RmxAudioPlayer are separate classes in order to increase
@@ -62,6 +65,7 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
     playlistManager.setPlaybackStatusListener(this);
     playlistManager.setOnErrorListener(this);
     playlistManager.setMediaControlsListener(this);
+    this.options = new Options(cordova.getContext());
   }
 
   public PlaylistManager getPlaylistManager() {
@@ -77,6 +81,11 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
   public void setResetStreamOnPause(boolean val) {
     resetStreamOnPause = val;
     getPlaylistManager().setResetStreamOnPause(getResetStreamOnPause());
+  }
+
+  public void setOptions(JSONObject val) {
+    Options options = new Options(cordova.getContext(), val);
+    getPlaylistManager().setOptions(options);
   }
 
   public float getVolume() {
@@ -313,7 +322,9 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
             lastBufferPercent = progress.getBufferPercent();
         }
 
-        if (playbackState == PlaybackState.PLAYING || playbackState == PlaybackState.SEEKING || playbackState == PlaybackState.PREPARING) {
+        if (playbackState == PlaybackState.PLAYING || playbackState == PlaybackState.SEEKING
+                || (playbackState == PlaybackState.PREPARING && progress.getDuration() == 0) // dont send on prepare, if null
+        ) {
             onStatus(RmxAudioStatusMessage.RMXSTATUS_PLAYBACK_POSITION, currentItem.getTrackId(), trackStatus);
         }
       }

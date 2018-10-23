@@ -27,6 +27,13 @@ export interface AudioPlayerOptions {
      * Default is true.
      */
     resetStreamOnPause?: boolean;
+    /**
+     * Further options for notifications
+     */
+    options?: NotificationOptions;
+}
+export interface NotificationOptions {
+    icon?: string;
 }
 /**
  * Options governing how the items are managed when using setPlaylistItems
