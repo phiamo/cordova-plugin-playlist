@@ -20,6 +20,7 @@ public interface RmxConstants {
   String PLAY                   = "play";
   String PLAY_BY_INDEX          = "playTrackByIndex";
   String PLAY_BY_ID             = "playTrackById";
+  String SELECT_BY_INDEX        = "selectTrackByIndex";
   String SELECT_BY_ID           = "selectTrackById";
   String PAUSE                  = "pause";
   String SKIP_FORWARD           = "skipForward";

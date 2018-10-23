@@ -2,7 +2,6 @@ package com.rolamix.plugins.audioplayer;
 
 import android.util.Log;
 
-import org.apache.cordova.LOG;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +81,6 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
       JSONObject optionsArgs = args.optJSONObject(1);
       PlaylistItemOptions options = new PlaylistItemOptions(optionsArgs);
 
-      Log.v(TAG, "SET_PLAYLIST_ITEMS:" + items.get(0).toString());
       cordova.getThreadPool().execute(new Runnable() {
           @Override
           public void run() {
@@ -201,7 +199,7 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
 
     if (PLAY_BY_INDEX.equals(action)) {
       int index = args.optInt(0, audioPlayerImpl.getPlaylistManager().getCurrentPosition());
-      long seekPosition = args.optLong(1, 0);
+      long seekPosition = (long)(args.optLong(1, 0) * 1000.0);
 
       audioPlayerImpl.getPlaylistManager().setCurrentPosition(index);
       audioPlayerImpl.getPlaylistManager().beginPlayback(seekPosition, false);
@@ -214,7 +212,7 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
       if (!"".equals((trackId))) {
         // alternatively we could search for the item and set the current index to that item.
         int code = trackId.hashCode();
-        long seekPosition = args.optLong(1, 0);
+        long seekPosition = (long)(args.optLong(1, 0) * 1000.0);
         audioPlayerImpl.getPlaylistManager().setCurrentItem(code);
         audioPlayerImpl.getPlaylistManager().beginPlayback(seekPosition, false);
       }
@@ -222,22 +220,27 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
       return true;
     }
 
+    if (SELECT_BY_INDEX.equals(action)) {
+      int index = args.optInt(0, audioPlayerImpl.getPlaylistManager().getCurrentPosition());
+
+      audioPlayerImpl.getPlaylistManager().setCurrentPosition(index);
+
+      long positionVal = (long)(args.optDouble(1, 0) * 1000.0);
+
+      audioPlayerImpl.getPlaylistManager().beginPlayback(positionVal, true);
+
+      new PluginCallback(callbackContext).send(PluginResult.Status.OK);
+      return true;
+    }
+
     if (SELECT_BY_ID.equals(action)) {
       String trackId = args.optString(0);
-      LOG.i("SELECT", trackId);
       if (!"".equals((trackId))) {
         // alternatively we could search for the item and set the current index to that item.
         int code = trackId.hashCode();
         audioPlayerImpl.getPlaylistManager().setCurrentItem(code);
 
-        long position = 0;
-        MediaProgress progress = audioPlayerImpl.getPlaylistManager().getCurrentProgress();
-        if (progress != null) {
-          position = progress.getPosition();
-        }
-
-        LOG.i("SELECT pos", String.valueOf(position));
-        long positionVal = (long)(args.optDouble(1, position / 1000.0f) * 1000.0);
+        long positionVal = (long)(args.optDouble(1, 0) * 1000.0);
 
         audioPlayerImpl.getPlaylistManager().beginPlayback(positionVal, true);
       }

@@ -266,6 +266,13 @@ export class RmxAudioPlayer {
   /**
    * Play the track matching the given trackId. If the track does not exist, this has no effect.
    */
+  selectTrackByIndex = (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number) => {
+    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'selectTrackByIndex', [trackId, position]);
+  }
+
+  /**
+   * Play the track matching the given trackId. If the track does not exist, this has no effect.
+   */
   selectTrackById = (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number) => {
     exec(successCallback, errorCallback, 'RmxAudioPlayer', 'selectTrackById', [trackId, position]);
   }

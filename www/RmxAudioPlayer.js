@@ -241,6 +241,10 @@ function () {
       exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackById', [trackId, position]);
     });
 
+    _defineProperty(this, "selectTrackByIndex", function (successCallback, errorCallback, trackId, position) {
+      exec(successCallback, errorCallback, 'RmxAudioPlayer', 'selectTrackByIndex', [trackId, position]);
+    });
+
     _defineProperty(this, "selectTrackById", function (successCallback, errorCallback, trackId, position) {
       exec(successCallback, errorCallback, 'RmxAudioPlayer', 'selectTrackById', [trackId, position]);
     });

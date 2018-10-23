@@ -271,6 +271,43 @@ static char kPlayerItemTimeRangesContext;
 }
 
 
+- (void) selectTrackByIndex:(CDVInvokedUrlCommand *) command {
+    NSNumber* argVal = [command argumentAtIndex:0 withDefault:[NSNumber numberWithInt:0]];
+    NSLog(@"RmxAudioPlayer.execute=selectTrackByIndex, %@", trackId);
+
+    int index = argVal.intValue;
+
+    if (index < 0 || index >= [self avQueuePlayer].itemsForPlayer.count) {
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Provided index is out of bounds"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    } else {
+        [self avQueuePlayer].currentIndex = argVal.intValue;
+        [self playCommand:NO];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }
+}
+
+- (void) selectTrackById:(CDVInvokedUrlCommand *) command {
+    NSString* trackId = [command.arguments objectAtIndex:0];
+    NSLog(@"RmxAudioPlayer.execute=selectTrackById, %@", trackId);
+
+    NSDictionary* result = [self findTrackById:trackId];
+    NSInteger idx = [(NSNumber*)result[@"index"] integerValue];
+    // AudioTrack* track = result[@"track"];
+
+    if ([self avQueuePlayer].itemsForPlayer.count > 0) {
+        if (idx >= 0) {
+            [self avQueuePlayer].currentIndex = idx;
+        }
+    }
+
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
 - (void) pause:(CDVInvokedUrlCommand *) command {
     NSLog(@"RmxAudioPlayer.execute=pause");
     _isWaitingToStartPlayback = NO;
@@ -298,26 +335,6 @@ static char kPlayerItemTimeRangesContext;
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
-
-- (void) selectTrackById:(CDVInvokedUrlCommand *) command {
-    NSString* trackId = [command.arguments objectAtIndex:0];
-    NSLog(@"RmxAudioPlayer.execute=playTrackById, %@", trackId);
-    
-    NSDictionary* result = [self findTrackById:trackId];
-    NSInteger idx = [(NSNumber*)result[@"index"] integerValue];
-    // AudioTrack* track = result[@"track"];
-    
-    if ([self avQueuePlayer].itemsForPlayer.count > 0) {
-        if (idx >= 0) {
-            [self avQueuePlayer].currentIndex = idx;
-        }
-    }
-    
-    [self.commandDelegate runInBackground:^{
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }];
-}
 
 - (void) seekTo:(CDVInvokedUrlCommand *) command {
     NSNumber* argVal = [command argumentAtIndex:0 withDefault:[NSNumber numberWithFloat:0.0]];
