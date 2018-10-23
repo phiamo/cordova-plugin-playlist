@@ -4,7 +4,7 @@ const {
   getAndroidJavaSrcPath, getPackageName, getProjectName, updateAndroidManifestApplication, doCodeGen,
 } = require('./utils');
 
-const pluginPackage = 'com.rolamix.plugins.java';
+const pluginPackage = 'com.rolamix.plugins.audioplayer';
 const pluginInstalledPackagePath = pluginPackage.replace(/\./g, path.sep);
 
 // these are *path segments* to be joined, relative to plugin root.
