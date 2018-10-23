@@ -201,7 +201,7 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
 
     if (PLAY_BY_INDEX.equals(action)) {
       int index = args.optInt(0, audioPlayerImpl.getPlaylistManager().getCurrentPosition());
-      long seekPosition = args.optLong(0, 0);
+      long seekPosition = args.optLong(1, 0);
 
       audioPlayerImpl.getPlaylistManager().setCurrentPosition(index);
       audioPlayerImpl.getPlaylistManager().beginPlayback(seekPosition, false);
@@ -214,8 +214,9 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
       if (!"".equals((trackId))) {
         // alternatively we could search for the item and set the current index to that item.
         int code = trackId.hashCode();
+        long seekPosition = args.optLong(1, 0);
         audioPlayerImpl.getPlaylistManager().setCurrentItem(code);
-        audioPlayerImpl.getPlaylistManager().beginPlayback(0, false);
+        audioPlayerImpl.getPlaylistManager().beginPlayback(seekPosition, false);
       }
       new PluginCallback(callbackContext).send(PluginResult.Status.OK);
       return true;

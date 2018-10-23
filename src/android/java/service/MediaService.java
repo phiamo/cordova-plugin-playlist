@@ -1,6 +1,6 @@
 package com.rolamix.plugins.audioplayer.service;
 
-import org.dwbn.recordings.MainApplication;
+import __PACKAGE_NAME__.MainApplication;
 import android.support.annotation.NonNull;
 
 import com.devbrackets.android.playlistcore.api.MediaPlayerApi;

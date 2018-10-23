@@ -10,7 +10,7 @@ import org.apache.cordova.LOG;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.dwbn.recordings.MainApplication;
+import __PACKAGE_NAME__.MainApplication;
 import com.rolamix.plugins.audioplayer.data.AudioTrack;
 import com.rolamix.plugins.audioplayer.manager.Options;
 import com.rolamix.plugins.audioplayer.manager.PlaylistManager;
