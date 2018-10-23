@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -74,15 +73,14 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
 
     @Override
     public int getNotificationIconRes() {
-        Log.i("MIPOPTIONS", options.getIcon());
         // return R.mipmap.icon; // this comes from cordova itself.
-        return fakeR.getId("mipmap", "icon_bw");
+        return fakeR.getId("mipmap", options.getIcon());
     }
 
     @Override
     public int getRemoteViewIconRes() {
         // return R.mipmap.icon;
-        return fakeR.getId("mipmap", "icon_bw");
+        return fakeR.getId("mipmap", options.getIcon());
     }
 
     @Nullable

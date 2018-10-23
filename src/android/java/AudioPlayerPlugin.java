@@ -15,7 +15,6 @@ import org.apache.cordova.PluginResult;
 
 import com.devbrackets.android.playlistcore.data.MediaProgress;
 import com.rolamix.plugins.audioplayer.data.AudioTrack;
-import com.rolamix.plugins.audioplayer.manager.Options;
 
 /**
  *
@@ -64,6 +63,7 @@ public class AudioPlayerPlugin extends CordovaPlugin implements RmxConstants, On
       if(jsonOptions == null) {
         jsonOptions = new JSONObject();
       }
+      Log.i("AudioPlayerOptions", jsonOptions.toString());
       audioPlayerImpl.setResetStreamOnPause(resetStreamOnPause);
       audioPlayerImpl.setOptions(jsonOptions);
       // We don't do anything with these yet.
