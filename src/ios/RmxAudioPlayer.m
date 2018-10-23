@@ -273,7 +273,7 @@ static char kPlayerItemTimeRangesContext;
 
 - (void) selectTrackByIndex:(CDVInvokedUrlCommand *) command {
     NSNumber* argVal = [command argumentAtIndex:0 withDefault:[NSNumber numberWithInt:0]];
-    NSLog(@"RmxAudioPlayer.execute=selectTrackByIndex, %@", trackId);
+    NSLog(@"RmxAudioPlayer.execute=selectTrackByIndex, %@", argVal);
 
     int index = argVal.intValue;
 
@@ -827,10 +827,11 @@ static char kPlayerItemTimeRangesContext;
 
     if (!CMTIME_IS_INDEFINITE(playerItem.currentTime)) {
         [self updateNowPlayingTrackInfo:playerItem updateTrackData:NO];
-
-        NSDictionary* trackStatus = [self getPlayerStatusItem:playerItem];
-        [self onStatus:RMXSTATUS_PLAYBACK_POSITION trackId:playerItem.trackId param:trackStatus];
-        // NSLog(@" . %.5f / %.5f sec (%.1f %%) [%@]", currentTime, duration, (currentTime / duration)*100.0, name);
+        if([[self avQueuePlayer] isPlaying]) {
+            NSDictionary* trackStatus = [self getPlayerStatusItem:playerItem];
+            [self onStatus:RMXSTATUS_PLAYBACK_POSITION trackId:playerItem.trackId param:trackStatus];
+            // NSLog(@" . %.5f / %.5f sec (%.1f %%) [%@]", currentTime, duration, (currentTime / duration)*100.0, name);
+        }
     }
 
     return;
@@ -920,6 +921,11 @@ static char kPlayerItemTimeRangesContext;
         _updatedNowPlayingInfo[MPMediaItemPropertyArtist] = currentItem.artist;
         _updatedNowPlayingInfo[MPMediaItemPropertyTitle] = currentItem.title;
         _updatedNowPlayingInfo[MPMediaItemPropertyAlbumTitle] = currentItem.album;
+        MPMediaItemArtwork * mediaItemArtwork = [self createCoverArtwork:[currentItem.albumArt absoluteString]];
+        
+        if (mediaItemArtwork != nil) {
+            [_updatedNowPlayingInfo setObject:mediaItemArtwork forKey:MPMediaItemPropertyArtwork];
+        }
     }
 
     _updatedNowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = [NSNumber numberWithFloat:duration];
@@ -933,6 +939,43 @@ static char kPlayerItemTimeRangesContext;
     [commandCenter.previousTrackCommand setEnabled:!self.isAtBeginning];
 }
 
+- (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri {
+    UIImage * coverImage = nil;
+    if (coverUri == nil) {
+        return nil;
+    }
+    
+    if ([coverUri.lowercaseString hasPrefix:@"file://"]) {
+        NSString * fullCoverImagePath = [coverUri stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath: fullCoverImagePath]) {
+            coverImage = [[UIImage alloc] initWithContentsOfFile: fullCoverImagePath];
+        }
+    }
+    else if ([coverUri hasPrefix:@"http://"] || [coverUri hasPrefix:@"https://"]) {
+        NSURL * coverImageUrl = [NSURL URLWithString:coverUri];
+        NSData * coverImageData = [NSData dataWithContentsOfURL: coverImageUrl];
+        
+        coverImage = [UIImage imageWithData: coverImageData];
+    }
+    else if (![coverUri isEqual:@""]) {
+        NSString * baseCoverImagePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString * fullCoverImagePath = [NSString stringWithFormat:@"%@%@", baseCoverImagePath, coverUri];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:fullCoverImagePath]) {
+            coverImage = [UIImage imageNamed:fullCoverImagePath];
+        }
+    }
+    else {
+        coverImage = [UIImage imageNamed:@"none"];
+    }
+    
+    return [self isCoverImageValid:coverImage] ? [[MPMediaItemArtwork alloc] initWithImage:coverImage] : nil;
+}
+
+- (bool) isCoverImageValid: (UIImage *) coverImage {
+    return coverImage != nil && ([coverImage CIImage] != nil || [coverImage CGImage] != nil);
+}
 - (void) handlePlayerCurrentItemChanged:(AudioTrack*)playerItem
 {
     NSLog(@"Queue changed current item to: %@", [playerItem toDict]);
@@ -940,11 +983,15 @@ static char kPlayerItemTimeRangesContext;
     NSLog(@"New item ID: %@", playerItem.trackId);
     NSLog(@"Queue is at end: %@", self.isAtEnd ? @"YES" : @"NO");
 
+    NSLog(@"Queue changed current item to: %@", playerItem != nil ? @"NOTNIL" : @"NIL");
     if (playerItem != nil) {
         // When an item starts, immediately scrub it back to the beginning
         [playerItem seekToTime:kCMTimeZero toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:nil];
         // Update the command center
         [self updateNowPlayingTrackInfo:playerItem updateTrackData:YES];
+    }
+    else if(self.loop){
+        return;
     }
 
     NSDictionary* info = @{
