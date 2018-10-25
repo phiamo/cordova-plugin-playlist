@@ -1246,8 +1246,6 @@ static char kPlayerItemTimeRangesContext;
 - (void) initializeMPCommandCenter
 {
     if (!_commandCenterRegistered) {
-        [self.viewController becomeFirstResponder]; // supposedly this is no longer necessary.
-
         MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
         [commandCenter.playCommand setEnabled:true];
         [commandCenter.playCommand addTarget:self action:@selector(playEvent:)];
