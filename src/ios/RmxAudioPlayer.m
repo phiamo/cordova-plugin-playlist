@@ -486,7 +486,7 @@ static char kPlayerItemTimeRangesContext;
 }
 
 - (BOOL) removeItemWithValues:(NSString*)trackIndex trackId:(NSString*)trackId {
-    if (trackIndex != nil
+    if (trackIndex != nil && ![trackIndex isKindOfClass:[NSNull class]]
         && [trackIndex integerValue] > 0
         && [trackIndex integerValue] < [self avQueuePlayer].itemsForPlayer.count
         ) {
