@@ -340,7 +340,7 @@ function () {
       };
 
       if (this.options.verbose) {
-        log.log(`RmxAudioPlayer.onStatus: ${_Constants.RmxAudioStatusMessageDescriptions[type]}(${type}) [${trackId}]: `, value);
+        log.log("RmxAudioPlayer.onStatus: " + _Constants.RmxAudioStatusMessageDescriptions[type] + "(" + type + ") [" + trackId + "]: ", value);
       }
 
       if (status.type === _Constants.RmxAudioStatusMessage.RMXSTATUS_TRACK_CHANGED) {
