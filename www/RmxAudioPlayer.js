@@ -334,9 +334,9 @@ function () {
      */
     value: function onStatus(trackId, type, value) {
       var status = {
-        type,
-        trackId,
-        value
+        type: type,
+        trackId: trackId,
+        value: value
       };
 
       if (this.options.verbose) {
