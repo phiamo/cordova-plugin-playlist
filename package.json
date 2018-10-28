@@ -59,6 +59,7 @@
   },
   "browserslist": "ios_saf >= 9.3, chrome >= 49",
   "dependencies": {
+    "bluebird": "^3.5.2",
     "fs-extra": "^5.0.0",
     "semver": "^5.5.0",
     "xml2js": "^0.4.19"
@@ -70,6 +71,8 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-typescript": "^7.0.0-beta.44",
+    "@types/bluebird": "^3.5.24",
+    "@types/core-js": "^0.9.36",
     "@types/semver": "^5.5.0",
     "babel-eslint": "^8.2.2",
     "babel-plugin-add-header-comment": "^1.0.3",

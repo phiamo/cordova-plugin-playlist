@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import { RmxAudioStatusMessage } from './Constants';
 import { AudioPlayerEventHandler, AudioPlayerEventHandlers, AudioPlayerOptions, AudioTrack, AudioTrackRemoval, OnStatusCallback, SuccessCallback, ErrorCallback, PlaylistItemOptions, OnStatusCallbackUpdateData, OnStatusTrackChangedData, OnStatusErrorCallbackData } from './interfaces';
 /**

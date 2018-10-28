@@ -1,5 +1,6 @@
 /* global cordova:false */
 /* globals window */
+import * as Promise from 'bluebird';
 
 import {
   RmxAudioStatusMessage,
