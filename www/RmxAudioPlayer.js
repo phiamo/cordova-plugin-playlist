@@ -175,8 +175,8 @@ function () {
         console.warn(message, args);
 
         _this._readyReject({
-          message,
-          args
+          message: message,
+          args: args
         });
       };
 

@@ -165,7 +165,7 @@ export class RmxAudioPlayer {
     const error = (args: any) => {
       const message = 'CORDOVA RMXAUDIOPLAYER: Error storing message channel:';
       console.warn(message, args);
-      this._readyReject({ message, args });
+      this._readyReject({ message: message, args: args });
     };
 
     exec(onNativeStatus, error, 'RmxAudioPlayer', 'initialize', []);
@@ -400,7 +400,7 @@ export class RmxAudioPlayer {
     * Internal use only, to raise events received from the native interface.
     */
   protected onStatus(trackId: string, type: RmxAudioStatusMessage, value: OnStatusCallbackUpdateData | OnStatusTrackChangedData | OnStatusErrorCallbackData) {
-    const status = { type, trackId, value };
+    const status = { type: type, trackId: trackId, value: value };
     if (this.options.verbose) {
       log.log(`RmxAudioPlayer.onStatus: ${RmxAudioStatusMessageDescriptions[type]}(${type}) [${trackId}]: `, value);
     }
