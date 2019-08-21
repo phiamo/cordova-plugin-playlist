@@ -119,7 +119,7 @@
 
       <!-- browser -->
     <platform name="browser">
-      <js-module src="www/browser/Media.js" name="RmxAudioPlayer">
+      <js-module src="www/RmxAudioPlayer.js" name="RmxAudioPlayer">
         <clobbers target="RmxAudioPlayer" />
       </js-module>
     </platform>
