@@ -54,7 +54,6 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
-yarn.lock
 
 # Yarn Lock file
 yarn.lock
