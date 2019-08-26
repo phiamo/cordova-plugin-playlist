@@ -118,7 +118,7 @@ export declare class RmxAudioPlayer {
     /**
      * Play the track matching the given trackId. If the track does not exist, this has no effect.
      */
-    playTrackById: (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number) => void;
+    playTrackById: (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number | undefined) => void;
     /**
      * Play the track matching the given trackId. If the track does not exist, this has no effect.
      */
@@ -126,7 +126,7 @@ export declare class RmxAudioPlayer {
     /**
      * Play the track matching the given trackId. If the track does not exist, this has no effect.
      */
-    selectTrackById: (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number) => void;
+    selectTrackById: (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number | undefined) => void;
     /**
      * Pause playback
      */
@@ -187,11 +187,6 @@ export declare class RmxAudioPlayer {
      */
     getCurrentBuffer: (successCallback: SuccessCallback, errorCallback: ErrorCallback) => void;
     /**
-     * (iOS only): Reports the duration of the entire playlist, in seconds (e.g. 4500 seconds for the entire playlist)
-     * Not implemented on Android since durations are not known ahead of time.
-     */
-    getTotalDuration: (successCallback: SuccessCallback, errorCallback: ErrorCallback) => void;
-    /**
      * (iOS only): Gets the overall playback position in the entire queue, in seconds (e.g. 1047 seconds).
      * Not implemented on Android since durations are not known ahead of time.
      */
@@ -232,14 +227,14 @@ export declare class RmxAudioPlayer {
      *
      * @param items The AudioTrack items to validate
      */
-    validateTracks(items: AudioTrack[]): (AudioTrack | null)[];
+    validateTracks: (items: AudioTrack[]) => (AudioTrack | null)[];
     /**
      * Validate a single track and ensure it is valid for playback.
      * Used internally but you can call this if you need to :)
      *
      * @param track The AudioTrack to validate
      */
-    validateTrack(track: AudioTrack): AudioTrack | null;
+    validateTrack: (track: AudioTrack) => AudioTrack | null;
     /**
      * Generate a v4 UUID for use as a unique trackId. Used internally, but you can use this to generate track ID's if you want.
      */

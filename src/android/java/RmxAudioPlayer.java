@@ -323,7 +323,7 @@ public class RmxAudioPlayer implements PlaybackStatusListener<AudioTrack>,
         }
 
         if (playbackState == PlaybackState.PLAYING || playbackState == PlaybackState.SEEKING
-                || (playbackState == PlaybackState.PREPARING && progress.getDuration() == 0) // dont send on prepare, if null
+                || (playbackState == PlaybackState.PREPARING && progress.getDuration() == 0)
         ) {
             onStatus(RmxAudioStatusMessage.RMXSTATUS_PLAYBACK_POSITION, currentItem.getTrackId(), trackStatus);
         }

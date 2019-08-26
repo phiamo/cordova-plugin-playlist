@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"
 	id="cordova-plugin-playlist"
-	version="0.6.0">
+	version="0.9.2">
 	<name>AudioPlayer</name>
 	<keywords>cordova,music,controller,controls,media,plugin,notification,lockscreen,now,playing,playlist</keywords>
 	<repo>https://github.com/Rolamix/cordova-plugin-playlist</repo>
@@ -41,10 +41,12 @@
 			</feature>
 		</config-file>
 
+<<<<<<< HEAD
         <config-file target="AndroidManifest.xml" parent="/manifest">
-          <uses-permission android:name="android.permission.INTERNET"/>
-          <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-          <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+            <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -59,7 +61,7 @@
              the plugin install/uninstall scripts manages this.
         -->
 
-        <dependency id="cordova-support-google-services" version="~1.1.0"/>
+        <dependency id="cordova-support-google-services" version="~1.2.0"/>
 
         <framework src="com.android.support:support-v4:27.+" />
         <framework src="com.android.support:support-media-compat:27.+" />
@@ -91,6 +93,7 @@
         <source-file src="src/android/java/RmxAudioErrorType.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
         <source-file src="src/android/java/RmxAudioStatusMessage.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
         <source-file src="src/android/java/TrackRemovalItem.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
+
 	</platform>
 
 	<!-- ios -->

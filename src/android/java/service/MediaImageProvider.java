@@ -60,6 +60,8 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
     @Nullable
     private Bitmap artworkImage;
 
+    private int notificationIconId = 0;
+
     MediaImageProvider(@NonNull Context context, @NonNull OnImageUpdatedListener listener, @NonNull Options options) {
         glide = Glide.with(context.getApplicationContext());
         fakeR = new FakeR(context.getApplicationContext());
@@ -73,14 +75,12 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
 
     @Override
     public int getNotificationIconRes() {
-        // return R.mipmap.icon; // this comes from cordova itself.
-        return fakeR.getId("mipmap", options.getIcon());
+        return getMipmapIcon();
     }
 
     @Override
     public int getRemoteViewIconRes() {
-        // return R.mipmap.icon;
-        return fakeR.getId("mipmap", options.getIcon());
+        return getMipmapIcon();
     }
 
     @Nullable
@@ -99,6 +99,18 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
     public void updateImages(@NotNull AudioTrack playlistItem) {
         glide.asBitmap().load(playlistItem.getThumbnailUrl()).into(notificationImageTarget);
         glide.asBitmap().load(playlistItem.getArtworkUrl()).into(remoteViewImageTarget);
+    }
+
+    private int getMipmapIcon() {
+        // return R.mipmap.icon; // this comes from cordova itself.
+        if (notificationIconId <= 0) {
+            notificationIconId = fakeR.getId("mipmap", "icon");
+            // API 28 moves the reference to this.
+            if (notificationIconId <= 0) {
+                notificationIconId = fakeR.getId("mipmap", "ic_launcher");
+            }
+        }
+        return notificationIconId;
     }
 
     /**

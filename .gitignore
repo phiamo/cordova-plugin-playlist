@@ -54,6 +54,7 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
+yarn.lock
 
 # Yarn Lock file
 yarn.lock
@@ -61,3 +62,5 @@ yarn.lock
 # dotenv environment variables file
 .env
 
+# jetbrains
+.idea
