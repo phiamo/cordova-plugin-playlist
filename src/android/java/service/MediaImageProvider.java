@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 // we can use R directly. Otherwise, we'd have to use the cordova activity,
 // but that would be a bit odd since this belongs to a service running
 // outside that activity. I'm not sure if that would work.
-// import __PACKAGE_NAME__.R;
+// import org.dwbn.recordings.R;
 import com.rolamix.plugins.audioplayer.FakeR;
 import com.rolamix.plugins.audioplayer.data.AudioTrack;
 import com.rolamix.plugins.audioplayer.manager.Options;
@@ -104,11 +105,7 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
     private int getMipmapIcon() {
         // return R.mipmap.icon; // this comes from cordova itself.
         if (notificationIconId <= 0) {
-            notificationIconId = fakeR.getId("mipmap", "icon");
-            // API 28 moves the reference to this.
-            if (notificationIconId <= 0) {
-                notificationIconId = fakeR.getId("mipmap", "ic_launcher");
-            }
+            notificationIconId = fakeR.getId("drawable", options.getIcon());
         }
         return notificationIconId;
     }
