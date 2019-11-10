@@ -138,9 +138,9 @@ export class RmxAudioPlayer {
    * Player interface
    */
 
-   /**
-    * Returns a promise that resolves when the plugin is ready.
-    */
+  /**
+   * Returns a promise that resolves when the plugin is ready.
+   */
   ready = () => {
     return this._initPromise;
   }
@@ -169,17 +169,17 @@ export class RmxAudioPlayer {
     };
 
     exec(onNativeStatus, error, 'RmxAudioPlayer', 'initialize', []);
-      // channel.initializationComplete('onRmxAudioPlayerReady');
+    // channel.initializationComplete('onRmxAudioPlayerReady');
     // });
 
     return this._initPromise;
   }
 
-   /**
-    * Sets the player options. This can be called at any time and is not required before playback can be initiated.
-    */
+  /**
+   * Sets the player options. This can be called at any time and is not required before playback can be initiated.
+   */
   setOptions = (successCallback: SuccessCallback, errorCallback: ErrorCallback, options: AudioPlayerOptions) => {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
     exec(successCallback, errorCallback, 'RmxAudioPlayer', 'setOptions', [options]);
   }
 
@@ -187,13 +187,13 @@ export class RmxAudioPlayer {
    * Playlist item management
    */
 
-   /**
-    * Sets the entire list of tracks to be played by the playlist.
-    * This will clear all previous items from the playlist.
-    * If you pass options.retainPosition = true, the current playback position will be
-    * recorded and used when playback restarts. This can be used, for example, to set the
-    * playlist to a new set of tracks, but retain the currently-playing item to avoid skipping.
-    */
+  /**
+   * Sets the entire list of tracks to be played by the playlist.
+   * This will clear all previous items from the playlist.
+   * If you pass options.retainPosition = true, the current playback position will be
+   * recorded and used when playback restarts. This can be used, for example, to set the
+   * playlist to a new set of tracks, but retain the currently-playing item to avoid skipping.
+   */
   setPlaylistItems = (successCallback: SuccessCallback, errorCallback: ErrorCallback, items: AudioTrack[], options?: PlaylistItemOptions) => {
     exec(successCallback, errorCallback, 'RmxAudioPlayer', 'setPlaylistItems', [this.validateTracks(items), options || {}]);
   }
@@ -242,9 +242,9 @@ export class RmxAudioPlayer {
    * Playback management
    */
 
-   /**
-    * Begin playback. If no tracks have been added, this has no effect.
-    */
+  /**
+   * Begin playback. If no tracks have been added, this has no effect.
+   */
   play = (successCallback: SuccessCallback, errorCallback: ErrorCallback) => {
     exec(successCallback, errorCallback, 'RmxAudioPlayer', 'play', []);
   }
@@ -252,15 +252,16 @@ export class RmxAudioPlayer {
   /**
    * Play the track at the given index. If the track does not exist, this has no effect.
    */
-  playTrackByIndex = (successCallback: SuccessCallback, errorCallback: ErrorCallback, index: number, position: number) => {
-    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackByIndex', [index, position]);
+
+  playTrackByIndex = (successCallback: SuccessCallback, errorCallback: ErrorCallback, index: number, position?: number) => {
+    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackByIndex', [index, position || 0]);
   }
 
   /**
    * Play the track matching the given trackId. If the track does not exist, this has no effect.
    */
-  playTrackById = (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position: number) => {
-    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackById', [trackId, position]);
+  playTrackById = (successCallback: SuccessCallback, errorCallback: ErrorCallback, trackId: string, position?: number) => {
+    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'playTrackById', [trackId, position || 0]);
   }
 
   /**
@@ -343,9 +344,9 @@ export class RmxAudioPlayer {
    * Get accessors
    */
 
-   /**
-    * Reports the current playback rate.
-    */
+  /**
+   * Reports the current playback rate.
+   */
   getPlaybackRate = (successCallback: SuccessCallback, errorCallback: ErrorCallback) => {
     exec(successCallback, errorCallback, 'RmxAudioPlayer', 'getPlaybackRate', []);
   }
@@ -374,14 +375,6 @@ export class RmxAudioPlayer {
   }
 
   /**
-   * (iOS only): Reports the duration of the entire playlist, in seconds (e.g. 4500 seconds for the entire playlist)
-   * Not implemented on Android since durations are not known ahead of time.
-   */
-  getTotalDuration = (successCallback: SuccessCallback, errorCallback: ErrorCallback) => {
-    exec(successCallback, errorCallback, 'RmxAudioPlayer', 'getTotalDuration', []);
-  }
-
-  /**
    * (iOS only): Gets the overall playback position in the entire queue, in seconds (e.g. 1047 seconds).
    * Not implemented on Android since durations are not known ahead of time.
    */
@@ -394,11 +387,11 @@ export class RmxAudioPlayer {
    * Status event handling
    */
 
-   /**
-    * @internal
-    * Call this function to emit an onStatus event via the on('status') handler.
-    * Internal use only, to raise events received from the native interface.
-    */
+  /**
+   * @internal
+   * Call this function to emit an onStatus event via the on('status') handler.
+   * Internal use only, to raise events received from the native interface.
+   */
   protected onStatus(trackId: string, type: RmxAudioStatusMessage, value: OnStatusCallbackUpdateData | OnStatusTrackChangedData | OnStatusErrorCallbackData) {
     const status = { type: type, trackId: trackId, value: value };
     if (this.options.verbose) {
@@ -492,7 +485,7 @@ export class RmxAudioPlayer {
    *
    * @param items The AudioTrack items to validate
    */
-  validateTracks(items: AudioTrack[]) {
+  validateTracks = (items: AudioTrack[]) => {
     if (!items || !Array.isArray(items)) { return []; }
     return items.map(this.validateTrack).filter(x => x); // may produce an empty array!
   }
@@ -503,7 +496,7 @@ export class RmxAudioPlayer {
    *
    * @param track The AudioTrack to validate
    */
-  validateTrack(track: AudioTrack) {
+  validateTrack = (track: AudioTrack) => {
     if (!track) { return null; }
     // For now we will rely on TS to do the heavy lifting, but we can add a validation here
     // that all the required fields are valid. For now we just take care of the unique ID.

@@ -223,24 +223,23 @@ public class PlaylistManager extends ListPlaylistManager<AudioTrack> implements 
             }
         }
 
-        // If the options said to start from a specific id, do so.
-        String idStart = null;
-        if (options.getRetainPosition()) {
-            if (options.getPlayFromId() != null) {
-                idStart = options.getPlayFromId();
-            }
-        }
-        if (idStart != null && !"".equals((idStart))) {
-            int code = idStart.hashCode();
-            setCurrentItem(code);
-        }
+      // If the options said to start from a specific id, do so.
+      String idStart = null;
+      if (options.getRetainPosition()) {
+          if (options.getPlayFromId() != null) {
+              idStart = options.getPlayFromId();
+          }
+      }
+      if (idStart != null && !"".equals((idStart))) {
+          int code = idStart.hashCode();
+          setCurrentItem(code);
+      }
 
-        // We assume that if the playlist is fully loaded in one go,
-        // that the next thing to happen will be to play. So let's start
-        // paused, which will allow the player to pre-buffer until the
-        // user says Go.
-
-        beginPlayback(seekStart, options.getStartPaused());
+      // We assume that if the playlist is fully loaded in one go,
+      // that the next thing to happen will be to play. So let's start
+      // paused, which will allow the player to pre-buffer until the
+      // user says Go.
+      beginPlayback(seekStart, options.getStartPaused());
     }
 
     public void addItem(AudioTrack item) {
