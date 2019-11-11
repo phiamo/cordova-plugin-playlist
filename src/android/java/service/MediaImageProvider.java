@@ -63,7 +63,7 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
 
     private int notificationIconId = 0;
 
-    MediaImageProvider(@NonNull Context context, @NonNull OnImageUpdatedListener listener) {
+    MediaImageProvider(@NonNull Context context, @NonNull OnImageUpdatedListener listener, @NotNull Options options) {
         glide = Glide.with(context.getApplicationContext());
         fakeR = new FakeR(context.getApplicationContext());
         this.listener = listener;
