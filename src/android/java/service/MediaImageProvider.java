@@ -105,12 +105,15 @@ public class MediaImageProvider implements ImageProvider<AudioTrack> {
     private int getMipmapIcon() {
         // return R.mipmap.icon; // this comes from cordova itself.
         if (notificationIconId <= 0) {
+            notificationIconId = fakeR.getId("drawable", options.getIcon());
+            /* phiamo: dont really understand how this works ...
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 notificationIconId = fakeR.getId("drawable", "ic_notification");
             }
             if (notificationIconId <= 0) {
                 notificationIconId = fakeR.getContext().getApplicationInfo().icon; //fakeR.getId("mipmap", "icon");
             }
+            */
         }
         return notificationIconId;
     }
