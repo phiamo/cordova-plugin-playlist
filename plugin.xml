@@ -70,6 +70,7 @@
     <resource-file src="src/android/res/drawable/img_playlist_artwork_default.png" target="res/drawable/img_playlist_artwork_default.png" />
 
     <source-file src="src/android/java/data/AudioTrack.java" target-dir="src/com/rolamix/plugins/audioplayer/data/" />
+    <source-file src="src/android/java/manager/Options.java" target-dir="src/com/rolamix/plugins/audioplayer/manager/" />
     <source-file src="src/android/java/manager/PlaylistManager.java" target-dir="src/com/rolamix/plugins/audioplayer/manager/" />
     <source-file src="src/android/java/manager/MediaControlsListener.java" target-dir="src/com/rolamix/plugins/audioplayer/manager/" />
     <source-file src="src/android/java/notification/PlaylistNotificationProvider.java" target-dir="src/com/rolamix/plugins/audioplayer/notification/" />
@@ -87,7 +88,7 @@
     <source-file src="src/android/java/PluginCallback.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
     <source-file src="src/android/java/PlaylistItemOptions.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
     <source-file src="src/android/java/RmxAudioPlayer.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
-		<source-file src="src/android/java/RmxConstants.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
+    <source-file src="src/android/java/RmxConstants.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
     <source-file src="src/android/java/RmxAudioErrorType.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
     <source-file src="src/android/java/RmxAudioStatusMessage.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
     <source-file src="src/android/java/TrackRemovalItem.java" target-dir="src/com/rolamix/plugins/audioplayer/" />
