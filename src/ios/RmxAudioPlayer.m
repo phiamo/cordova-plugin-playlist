@@ -100,7 +100,7 @@ static char kPlayerItemTimeRangesContext;
     BOOL retainPosition = options[@"retainPosition"] != nil ? [options[@"retainPosition"] boolValue] : NO;
     float playFromPosition = options[@"playFromPosition"] != nil ? [options[@"playFromPosition"] floatValue] : 0.0f;
 
-    NSString* playFromId = options[@"playFromId"] != nil ? [options[@"playFromId"] stringValue] : nil;
+    NSString* playFromId = [options[@"playFromId"] length] > 0 ? options[@"playFromId"] : nil;
 
     BOOL startPaused = options[@"startPaused"] != nil ? [options[@"startPaused"] boolValue] : YES;
 
@@ -122,13 +122,13 @@ static char kPlayerItemTimeRangesContext;
     }
     [self.commandDelegate runInBackground:^{
         // This will wait for the AVPlayerItemStatusReadyToPlay status change, and then trigger playback.
-        _isWaitingToStartPlayback = !startPaused;
-        if (_isWaitingToStartPlayback) {
+        self->_isWaitingToStartPlayback = !startPaused;
+        if (self->_isWaitingToStartPlayback) {
             NSLog(@"RmxAudioPlayer[setPlaylistItems] will wait for ready event to begin playback");
         }
 
         [self insertOrReplaceTracks:items replace:YES startPosition:seekToPosition];
-        if (_isWaitingToStartPlayback) {
+        if (self->_isWaitingToStartPlayback) {
             [self playCommand:NO]; // but we will try to preempt it to avoid the button blinking paused.
         }
 
@@ -258,10 +258,6 @@ static char kPlayerItemTimeRangesContext;
             [self playCommand:NO];
 
             NSNumber* argVal = [command argumentAtIndex:1 withDefault:[NSNumber numberWithFloat:0.0]];
-<<<<<<< HEAD
-
-=======
->>>>>>> umaster
             float positionTime = argVal.floatValue;
             [self seekTo:positionTime isCommand:NO];
 
@@ -832,10 +828,6 @@ static char kPlayerItemTimeRangesContext;
 
     if (!CMTIME_IS_INDEFINITE(playerItem.currentTime)) {
         [self updateNowPlayingTrackInfo:playerItem updateTrackData:NO];
-<<<<<<< HEAD
-=======
-
->>>>>>> umaster
         if([[self avQueuePlayer] isPlaying]) {
             NSDictionary* trackStatus = [self getPlayerStatusItem:playerItem];
             [self onStatus:RMXSTATUS_PLAYBACK_POSITION trackId:playerItem.trackId param:trackStatus];
@@ -984,14 +976,14 @@ static char kPlayerItemTimeRangesContext;
 }
 - (void) handlePlayerCurrentItemChanged:(AudioTrack*)playerItem
 {
-    NSLog(@"Queue changed current item to: %@", [playerItem toDict]);
-    // NSLog(@"New music name: %@", ((AVURLAsset*)playerItem.asset).URL.pathComponents.lastObject);
-    NSLog(@"New item ID: %@", playerItem.trackId);
-    NSLog(@"Queue is at end: %@", self.isAtEnd ? @"YES" : @"NO");
-    NSLog(@"Queue changed current item to: %@", playerItem != nil ? @"NOTNIL" : @"NIL");
-
-    NSLog(@"Queue changed current item to: %@", playerItem != nil ? @"NOTNIL" : @"NIL");
     if (playerItem != nil) {
+        NSLog(@"Queue changed current item to: %@", [playerItem toDict]);
+        // NSLog(@"New music name: %@", ((AVURLAsset*)playerItem.asset).URL.pathComponents.lastObject);
+        NSLog(@"New item ID: %@", playerItem.trackId);
+        NSLog(@"Queue is at end: %@", self.isAtEnd ? @"YES" : @"NO");
+        NSLog(@"Queue changed current item to: %@", playerItem != nil ? @"NOTNIL" : @"NIL");
+
+        NSLog(@"Queue changed current item to: %@", playerItem != nil ? @"NOTNIL" : @"NIL");
         // When an item starts, immediately scrub it back to the beginning
         [playerItem seekToTime:kCMTimeZero toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:nil];
         // Update the command center
@@ -1318,9 +1310,10 @@ static char kPlayerItemTimeRangesContext;
                 [strongSelf executePeriodicUpdate:time];
             }
         }];
-
+        if ([NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){10,0,0}]) {
+            //_avQueuePlayer.automaticallyWaitsToMinimizeStalling = NO;
+        }
         // Put this behind a flag.
-        _avQueuePlayer.automaticallyWaitsToMinimizeStalling = NO;
     }
 
     return _avQueuePlayer;
